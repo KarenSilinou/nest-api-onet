@@ -7,5 +7,9 @@
         "name": "onet-nest"
     },
     "baseUrl": "http://localhost:3000/",
-    "basePath": "api/v1"
+    "basePath": "api/v1",
+    "jwt": {
+        "secret": "DebGVrfWJlZjGn0dW3waI5pT4wVVCrhl",
+        "expiration": "2h"
+    }
   }

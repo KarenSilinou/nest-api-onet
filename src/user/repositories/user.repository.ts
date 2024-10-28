@@ -31,6 +31,12 @@ export class UserRepository {
     }) as unknown as User;
   }
 
+  async getUser(filter: QueryFilter) {
+    if ('_id' in filter) filter._id = new ObjectId(filter._id);
+
+    return (await this.collection()).findOne(filter) as unknown as User;
+  }
+
   async updateUser(id: string, data: Document) {
     const _id = new ObjectId(id);
 

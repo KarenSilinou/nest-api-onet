@@ -46,6 +46,19 @@ export const config = convict({
     format: String,
     default: '',
   },
+  jwt: {
+    secret: {
+      doc: 'JWT Secret',
+      format: String,
+      default: 'secret-string'
+    },
+    expiration: {
+      doc: 'JWT Token expiration',
+      format: String,
+      default: '5m',
+      env: 'JWT_EXPIRATION'
+    }
+  },
 });
 
 const env = config.get('env');
