@@ -28,10 +28,10 @@ export class UserService {
     return this.userRepository.getUsers(query);
   }
 
-  async findOne(id: string) {
-    const user = await this.userRepository.getUserById(id);
+  async findOne(filter: QueryFilter) {
+    const user = await this.userRepository.getUser(filter);
 
-    if (!user) throw new NotFoundException(`No user found with id ${id}`);
+    if (!user) throw new NotFoundException(`No user found`);
 
     user._id = user._id.toString();
 

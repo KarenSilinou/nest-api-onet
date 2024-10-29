@@ -1,5 +1,5 @@
 import { User, UserRepository } from '@nest-api-onet/user';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload, LoginDto } from './dtos';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -17,7 +17,7 @@ export class AuthService {
         const user = await this.userRepository.getUser({ email });
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            throw new NotFoundException('Invalid credentials');
+            throw new UnauthorizedException('Invalid credentials');
         }
 
         const authUser = new AuthUser(user);

@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, ClassSerializerInterceptor, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUser, JwtGuard } from '@nest-api-onet/auth';
+import { User } from './entities';
 
 @Controller('users')
 export class UserController {
@@ -13,14 +15,17 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(JwtGuard)
   findAll(@Query() filter: QueryFilter) {
     return this.userService.findAll({ filter });
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  @UseGuards(JwtGuard)
+  findOne(@Param('id') id: string, @GetUser() user: User) {
+    console.log("🚀 ~ UserController ~ findOne ~ user:", user)
+    return this.userService.findOne({ _id: id });
   }
 
   @Patch(':id')
